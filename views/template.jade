@@ -1,0 +1,48 @@
+mixin css(file)
+  link(rel="stylesheet", href= file.indexOf("//") < 0 ? "/css/" + file : file, type="text/css")
+mixin js(file)
+  script(type="text/javascript", src= file.indexOf("//") < 0 ? "/js/" + file : file)
+doctype html
+if appName
+  html(ng-app=appName)
+    block _html
+else
+  html
+    block _html
+
+block _html
+head
+  meta(charset="UTF-8")
+  meta(name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no")
+  title= "戦闘力ランキング - " + pagetitle
+  +css("bootstrap.min.css")
+  +css("style.css")
+  block css
+  style.
+    .ng-cloak, .x-ng-cloak {
+      display: none !important;
+    }
+  +js("spin.min.js")
+  //- +js("https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.12.1/ui-bootstrap.min.js")
+  block topjs
+body(ng-controller="MainController")
+  if appName
+    div.overlay(overlay ng-show="overlay")
+  div.container
+    header.clearfix
+      h2.pull-left
+        a(href="/" style="color:#333;") 戦闘力ランキング
+      div.pull-right(style="margin-top:20px;")
+        block header
+    hr
+    block content
+    +js("https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js")
+    +js("script.min.js")
+    block bottomjs
+  script.
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-60227528-1', 'auto');
+    ga('send', 'pageview');

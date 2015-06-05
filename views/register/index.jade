@@ -1,0 +1,44 @@
+extends ../template
+block content
+  div
+    form.form-horizontal(method="post", ng-controller="RegisterForm", ng-submit="register()")
+      p 一度登録すると学籍番号だけで他を空欄にすると入れます
+      div.form-group(ng-class="{'has-error': messages.studentId}")
+        label(for="input-student-id") 学籍番号（非公開、重複確認用）
+        label.control-label.ng-cloak(for="input-student-id" value=studentId) {{messages.studentId}}
+        input#input-student-id.form-control(type="text", placeholder="12XXXXX", ng-model="studentId")
+      div.form-group(ng-class="{'has-error': messages.point}")
+        label(for="input-fighting-point") 戦闘力（後期成績を含む）
+        label.control-label.ng-cloak(for="input-fighting-point") {{messages.point}}
+        input#input-fighting-point.form-control(type="text", ng-model="point")
+      div.form-group(ng-class="{'has-error': messages.choice}")
+        label(for="select-laboratory-choice") 志望研究室
+        label.control-label.ng-cloak(for="select-laboratory-choice") {{messages.choice}}
+        select#select-laboratory-choice.form-control(ng-model="choice")
+          option(value="") [選択してください]
+          for lab in labolist
+            option(value=lab.id)= lab.name
+      button.btn.btn-primary.ng-cloak(type="submit", ng-cloak) 送信
+    hr
+    div
+      h3 戦闘力調査ブックマークレット
+      textarea.form-control(readonly focus-select).
+        javascript:var g=function(s){return document.getElementsByClassName(s)},c=g("tdSpace").length+g("tdSpaceAlt").length,d=Math.round(c*20)/100,a=parseFloat(document.getElementById("ctl00_ContentPlaceHolder1_ctl00_lblAveTotal").innerText),s=d+a;alert("全科目平均は"+a+"\n修得科目数は"+c+"科目、科目数補正は"+d+"\n戦闘力は"+s)
+      p
+      | 上のテキストエリアの文字列をURLとしてブックマークに登録して、教務Webの成績閲覧画面でそのブックマークを使用すると戦闘力を算出できます。
+      | ただし高専勢とかで一行で複数科目表現しているような場合は正確に取得できません。（白い行数数えて0.2掛けてるだけだしね）
+    hr
+    div
+      h4 更新履歴
+      dl.dl-horizontal
+        dt 2015/03/09
+        dd 平均値、中央値を表示
+        dt 2015/03/08
+        dd ヒストグラム追加
+        dt 2015/03/07
+        dd ランキングでBnを選択した時に分類ごとの順位が出る機能を実装
+        dt 2015/03/05
+        dd 公開
+
+block bottomjs
+  +js("register.min.js")

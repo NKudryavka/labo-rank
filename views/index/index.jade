@@ -1,0 +1,31 @@
+extends ../template
+block css
+block topjs
+block header
+  a.btn.btn-default(href="/register/") 得点と志望を変更する
+block content
+  div
+    form
+      label(for="labo-select") 志望研究室
+      select#labo-select.form-control(ng-disable="labolist" ng-model="filter.choice" ng-options="labo as labo.name for labo in labolist")
+        option(value="") 全部
+    hr
+    div(stats)
+      span.ng-cloak ヒストグラムの間隔 : {{step}}
+      input(type="range" max="10" min="0.5" step="0.5" value="5" ng-model="step")
+      div
+      p.ng-cloak 平均:{{average.toFixed(2)}}　　　中央値:{{median.toFixed(2)}}
+    table.table.table-hover
+      thead
+        tr
+          td #
+          td 戦闘力
+          td 志望
+      tbody
+        tr.ng-cloak.ranking(ng-repeat="point in points")
+          td {{$index+1}}
+          td {{point.point.toFixed(2)}}
+          td {{point.choice.name}}
+block bottomjs
+  +js("d3.min.js")
+  +js("index.min.js")
